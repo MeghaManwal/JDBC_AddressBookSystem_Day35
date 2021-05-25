@@ -4,11 +4,39 @@ import java.util.Scanner;
 
 public class AddressBook {
 
+	static final Scanner s = new Scanner(System.in);
+	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		Scanner s = new Scanner(System.in);
 		
+		System.out.println(" Press 1 to Reterive data\n Press 2 to Update data\n");
+		int choice = s.nextInt();
+		
+		switch(choice) {
+		case 1:
+			  ReteriveData();
+			  break;
+		case 2:
+			  UpdateData();
+			  break;
+		}
+	}
+	
+	private static void ReteriveData() throws SQLException {
 		AddressBookRepo repo = new AddressBookRepo();
 		List<Contacts> contact = repo.findAll();
 		contact.forEach(System.out::println);
+	}
+		
+	
+	private static void UpdateData() throws SQLException {
+		System.out.println("Enter Contact_Id");
+	    int Contact_ID = s.nextInt();
+		
+		System.out.println("Enter Address");
+	    String Address = s.next();
+		
+	    AddressBookRepo repo = new AddressBookRepo();
+		repo.updatedata(Contact_ID, Address);
+			
 	}
 }

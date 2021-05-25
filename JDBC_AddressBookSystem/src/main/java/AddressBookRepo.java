@@ -9,7 +9,7 @@ import java.util.List;
 public class AddressBookRepo {
 
 	public List<Contacts> findAll() throws SQLException {
-		List<Contacts> infos=new ArrayList<>();
+		 List<Contacts> infos=new ArrayList<>();
 		
 		 Connection connection = null;
 		 PreparedStatement prepstatement = null;
@@ -58,12 +58,12 @@ public class AddressBookRepo {
 			information.setEmailId(emailId);
 			
 			infos.add(information);
-		 }
-		 }catch (SQLException e) {
+		  }
+		  }catch (SQLException e) {
 			e.printStackTrace();
-		 }catch (Exception e) {
+		  }catch (Exception e) {
 			e.printStackTrace();
-		 }finally {
+		  }finally {
 			
 			if(connection != null) {
 				connection.close();
@@ -71,9 +71,43 @@ public class AddressBookRepo {
 			if(prepstatement != null) {
 			   prepstatement.close();
 			}
-		 }
-		 return infos;
-		
+		  }
+		  return infos;	
 	}
+
+	 public void updatedata(int contact_ID, String address) throws SQLException {
+		
+		    Connection connection = null;
+			PreparedStatement prepstate = null;
+			try {
+			//Step1: Load & Register Driver Class
+			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+			
+			//Step2: Establish a MySql Connection
+			 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/addressbook_System", "root", "");
+			
+			//Step3: Create Statement
+			 String query ="Update AddressBook set address=? where contact_ID=?";
+			 prepstate = connection.prepareStatement(query);
+			 prepstate.setString(1, address);
+			 prepstate.setInt(2, contact_ID);
+			
+			//Step4: Execute Query
+			 prepstate.executeUpdate();
+			 System.out.print("Records Updated!");
+			
+			 }catch (SQLException e) {
+				e.printStackTrace();
+			 }catch (Exception e) {
+				e.printStackTrace();
+			 }finally {
+				if(connection != null) {
+				   connection.close();
+				}
+				if(prepstate != null) {
+				   prepstate.close();
+				}
+			}
+	 }
 
 }

@@ -8,7 +8,7 @@ public class AddressBook {
 	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		
-		System.out.println(" Press 1 to Reterive data\n Press 2 to Update data\n");
+		System.out.println(" Press 1 to Reterive data\n Press 2 to Update data\n Press 3 to Reterive Data for Particular Date");
 		int choice = s.nextInt();
 		
 		switch(choice) {
@@ -18,8 +18,12 @@ public class AddressBook {
 		case 2:
 			  UpdateData();
 			  break;
+		case 3:
+			  ReteriveDataForParticularDate();
+			  break;	  
 		}
 	}
+	
 	
 	private static void ReteriveData() throws SQLException {
 		AddressBookRepo repo = new AddressBookRepo();
@@ -27,7 +31,6 @@ public class AddressBook {
 		contact.forEach(System.out::println);
 	}
 		
-	
 	private static void UpdateData() throws SQLException {
 		System.out.println("Enter Contact_Id");
 	    int Contact_ID = s.nextInt();
@@ -38,5 +41,12 @@ public class AddressBook {
 	    AddressBookRepo repo = new AddressBookRepo();
 		repo.updatedata(Contact_ID, Address);
 			
+	}
+	
+	private static void ReteriveDataForParticularDate() throws SQLException {
+		AddressBookRepo repo = new AddressBookRepo();
+		List<Contacts> infos = repo.findAllForParticularDate();
+		infos.forEach(System.out::println);
+		
 	}
 }

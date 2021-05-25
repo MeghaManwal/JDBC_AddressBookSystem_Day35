@@ -110,4 +110,66 @@ public class AddressBookRepo {
 			}
 	 }
 
+	public List<Contacts> findAllForParticularDate() throws SQLException {
+
+		List<Contacts> infos=new ArrayList<>();
+		Connection connection = null;
+		PreparedStatement prepstatement = null;
+		try {
+			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver ());
+			
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/addressbook_System", "root", "");
+			
+			String query ="Select * from AddressBook where date_added between Cast('2020-02-01' as date) and date(now())";
+			prepstatement = connection.prepareStatement(query);
+			
+			ResultSet resultset = prepstatement.executeQuery();
+			
+			while(resultset.next()) {
+				Contacts information = new Contacts();
+				
+				int id=resultset.getInt(1);
+				information.setContact_Id(id);
+				
+				String firstname = resultset.getString(2);
+				information.setFirstName(firstname);
+				
+				String lastname = resultset.getString(3);
+				information.setLastName(lastname);
+				
+				String address = resultset.getString(4);
+				information.setAddress(address);
+				
+				String city = resultset.getString(5);
+				information.setCity(city);
+				
+				String state = resultset.getString(6);
+				information.setState(state);
+				
+				String zip = resultset.getString(7);
+				information.setZipCode(zip);
+				
+				String phoneNumber = resultset.getString(8);
+				information.setPhoneNumber(phoneNumber);
+				
+				String emailId = resultset.getString(9);
+				information.setEmailId(emailId);
+				
+				infos.add(information);
+			}
+			}catch (SQLException e) {
+				e.printStackTrace();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}finally {
+				if(connection != null) {
+					connection.close();
+				}
+				if(prepstatement != null) {
+				   prepstatement.close();
+				}
+			}
+			return infos;
+	}
+
 }

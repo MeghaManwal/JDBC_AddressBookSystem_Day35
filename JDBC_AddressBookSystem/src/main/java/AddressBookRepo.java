@@ -3,6 +3,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -232,6 +233,41 @@ public class AddressBookRepo {
 				}
 			}
 			return infos;
+	}
+
+	public void insertRecord(Contacts info) throws SQLException {
+	
+		Connection connection = null;
+		Statement statement = null;
+		try {
+		//Step1: Load & Register Driver Class
+		DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver ());
+		
+		//Step2: Establish a MySql Connection
+		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/addressbook_System", "root", "");
+		
+		//Step3: Create Statement
+		 statement = connection.createStatement();
+		
+		//Step4: Execute Query
+		String query = "insert into AddressBook(FirstName, LastName, Address, City, State, ZipCode, PhoneNumber, EmailId, date_Added) "
+				        + "value('"+info.getFirstName()+"','"+info.getLastName()+"','"+info.getAddress()+"','"+info.getCity()+"','"+info.getState()+"','"+info.getZipCode()+"','"+info.getPhoneNumber()+ "','"+info.getEmailId()+ "','"+info.getDate()+"')";
+		int result = statement.executeUpdate(query);
+		System.out.print(result);
+		
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(connection != null) {
+			statement.close();
+			}
+			if(statement != null) {
+			connection.close();
+			}
+		}
+		
 	}
 
 }

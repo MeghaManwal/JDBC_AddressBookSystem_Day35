@@ -9,7 +9,7 @@ public class AddressBook {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		
 		System.out.println(" Press 1 to Reterive data\n Press 2 to Update data\n Press 3 to Reterive Data for Particular Date"+
-				           "\n Press 4 to Reterive Data for Particular Date");
+				           "\n Press 4 to Reterive Data for Particular Date\n Press 5 to Add Data");
 		int choice = s.nextInt();
 		
 		switch(choice) {
@@ -25,6 +25,9 @@ public class AddressBook {
 		case 4:
 			  ReteriveDataForParticularCityorState();
 			  break;
+		case 5:
+			  AddData();
+			  break;	  
 		}
 	}
 	
@@ -55,5 +58,40 @@ public class AddressBook {
     	AddressBookRepo repo = new AddressBookRepo();
 		List<Contacts> infos = repo.findAllForParticularCityorState();
 		infos.forEach(System.out::println);	
+	}
+    
+    private static void AddData() throws SQLException {
+    	Contacts info = new Contacts();
+    	
+    	System.out.println("Enter FirstName");
+		info.setFirstName(s.next());
+		
+		System.out.println("Enter LastName");
+		info.setLastName(s.next());
+		
+		System.out.println("Enter Address");
+		info.setAddress(s.next());
+		
+		System.out.println("Enter City");
+		info.setCity(s.next());
+		
+		System.out.println("Enter State");
+		info.setState(s.next());
+		
+		System.out.println("Enter ZipCode");
+		info.setZipCode(s.next());
+		
+		System.out.println("Enter PhoneNumber");
+		info.setPhoneNumber(s.next());
+		
+		System.out.println("Enter EmailId");
+		info.setEmailId(s.next());
+		
+		System.out.println("Enter Date Added");
+		info.setDate(s.next());
+			
+		AddressBookRepo repo = new AddressBookRepo();
+		repo.insertRecord(info);
+		
 	}
 }

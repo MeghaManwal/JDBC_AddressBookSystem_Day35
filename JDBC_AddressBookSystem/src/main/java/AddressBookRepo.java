@@ -70,7 +70,7 @@ public class AddressBookRepo {
 				connection.close();
 			}
 			if(prepstatement != null) {
-			   prepstatement.close();
+			    prepstatement.close();
 			}
 		  }
 		  return infos;	
@@ -173,7 +173,7 @@ public class AddressBookRepo {
 			return infos;
 	}
 
-	public List<Contacts> findAllForParticularCityorState() throws SQLException {
+	public void findAllForParticularCityorState() throws SQLException {
 		
 		List<Contacts> infos=new ArrayList<>();
 		Connection connection = null;
@@ -181,45 +181,16 @@ public class AddressBookRepo {
 		try {
 			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver ());
 			
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/addressbook_System", "root", "");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/addressbook_System", "root", "Varsha@!4455");
 			
-			String query ="Select * from AddressBook where City='Bangalore' or State='Uttarakhand'";
+			String query ="Select count(*) from AddressBook where City='Bangalore' or State='Uttarakhand'";
 			prepstatement = connection.prepareStatement(query);
 			
-			ResultSet resultset = prepstatement.executeQuery();
+			ResultSet result = prepstatement.executeQuery();
 			
-			while(resultset.next()) {
-				Contacts information = new Contacts();
-				
-				int id=resultset.getInt(1);
-				information.setContact_Id(id);
-				
-				String firstname = resultset.getString(2);
-				information.setFirstName(firstname);
-				
-				String lastname = resultset.getString(3);
-				information.setLastName(lastname);
-				
-				String address = resultset.getString(4);
-				information.setAddress(address);
-				
-				String city = resultset.getString(5);
-				information.setCity(city);
-				
-				String state = resultset.getString(6);
-				information.setState(state);
-				
-				String zip = resultset.getString(7);
-				information.setZipCode(zip);
-				
-				String phoneNumber = resultset.getString(8);
-				information.setPhoneNumber(phoneNumber);
-				
-				String emailId = resultset.getString(9);
-				information.setEmailId(emailId);
-				
-				infos.add(information);
-			}
+			result.next();
+			int count = result.getInt(1);
+			System.out.println("Number of Records: "+count);
 			}catch (SQLException e) {
 				e.printStackTrace();
 			}catch (Exception e) {
@@ -232,7 +203,6 @@ public class AddressBookRepo {
 				   prepstatement.close();
 				}
 			}
-			return infos;
 	}
 
 	public void insertRecord(Contacts info) throws SQLException {
@@ -261,10 +231,10 @@ public class AddressBookRepo {
 			e.printStackTrace();
 		}finally {
 			if(connection != null) {
-			statement.close();
+				connection.close();
 			}
 			if(statement != null) {
-			connection.close();
+				statement.close();
 			}
 		}
 		

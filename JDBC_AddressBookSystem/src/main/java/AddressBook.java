@@ -56,8 +56,7 @@ public class AddressBook {
 	
     private static void ReteriveDataForParticularCityorState() throws SQLException {
     	AddressBookRepo repo = new AddressBookRepo();
-		List<Contacts> infos = repo.findAllForParticularCityorState();
-		infos.forEach(System.out::println);	
+		 repo.findAllForParticularCityorState();	
 	}
     
     private static void AddData() throws SQLException {
